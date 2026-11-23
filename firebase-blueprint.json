@@ -1,0 +1,268 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Shopkeeper account profile, plan tier, and localization preferences.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the owner." },
+        "displayName": { "type": "string", "description": "Display name of the shopkeeper." },
+        "email": { "type": "string", "description": "Optional email address." },
+        "phone": { "type": "string", "description": "Optional mobile number." },
+        "planTier": { "type": "string", "enum": ["FREE", "PREMIUM"], "description": "Subscription tier." },
+        "activeBusinessId": { "type": "string", "description": "Currently selected business ID." },
+        "language": { "type": "string", "enum": ["EN", "HI", "AS", "BN"], "description": "Preferred app language." },
+        "accountStatus": { "type": "string", "enum": ["ACTIVE", "SUSPENDED"], "description": "Account status." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "displayName", "planTier", "language", "accountStatus", "createdAt", "updatedAt"]
+    },
+    "BusinessProfile": {
+      "title": "BusinessProfile",
+      "description": "Business registration profile supporting multi-business management.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessName": { "type": "string" },
+        "ownerName": { "type": "string" },
+        "phone": { "type": "string" },
+        "businessType": { "type": "string" },
+        "address": { "type": "string" },
+        "gstNumber": { "type": "string" },
+        "upiId": { "type": "string" },
+        "openingDate": { "type": "string" },
+        "logoUri": { "type": "string" },
+        "signatureUri": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessName", "ownerName", "businessType", "createdAt", "updatedAt"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer credit/debit profile and live outstanding balance.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "category": { "type": "string" },
+        "notes": { "type": "string" },
+        "photoUri": { "type": "string" },
+        "openingBalance": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "dueDateMillis": { "type": "integer" },
+        "lastTransactionAtMillis": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "name", "category", "openingBalance", "currentBalance", "createdAt", "updatedAt"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Supplier payable account and GST/company metadata.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "name": { "type": "string" },
+        "companyName": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "gstNumber": { "type": "string" },
+        "openingBalance": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "dueDateMillis": { "type": "integer" },
+        "lastTransactionAtMillis": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "name", "openingBalance", "currentBalance", "createdAt", "updatedAt"]
+    },
+    "LedgerTransaction": {
+      "title": "LedgerTransaction",
+      "description": "Auditable double-entry-inspired credit/debit ledger transaction.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "partyId": { "type": "string" },
+        "partyName": { "type": "string" },
+        "partyType": { "type": "string", "enum": ["CUSTOMER", "SUPPLIER"] },
+        "txnType": { "type": "string", "enum": ["CREDIT_GIVEN", "PAYMENT_RECEIVED", "PURCHASE_PAYABLE", "SUPPLIER_PAYMENT", "DEBIT_ADJUSTMENT", "CREDIT_ADJUSTMENT", "OPENING_BALANCE", "REVERSAL", "REFUND"] },
+        "amount": { "type": "number" },
+        "balanceImpact": { "type": "number" },
+        "paymentMode": { "type": "string", "enum": ["CASH", "UPI", "BANK", "CREDIT", "OTHER"] },
+        "description": { "type": "string" },
+        "itemDetails": { "type": "string" },
+        "referenceNumber": { "type": "string" },
+        "attachmentUri": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "EDITED", "REVERSED"] },
+        "reversedByTxnId": { "type": "string" },
+        "txnTimeMillis": { "type": "integer" },
+        "auditHistory": { "type": "array", "description": "Bounded audit trail entries." },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "partyId", "partyName", "partyType", "txnType", "amount", "balanceImpact", "paymentMode", "status", "txnTimeMillis", "createdAt", "updatedAt"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Business expense entry with category and payment mode.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "amount": { "type": "number" },
+        "category": { "type": "string" },
+        "paymentMode": { "type": "string", "enum": ["CASH", "UPI", "BANK", "OTHER"] },
+        "notes": { "type": "string" },
+        "receiptUri": { "type": "string" },
+        "expenseTimeMillis": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "amount", "category", "paymentMode", "expenseTimeMillis", "createdAt", "updatedAt"]
+    },
+    "SaleRecord": {
+      "title": "SaleRecord",
+      "description": "Business sale and invoice record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "productName": { "type": "string" },
+        "quantity": { "type": "number" },
+        "unitPrice": { "type": "number" },
+        "discount": { "type": "number" },
+        "taxPercent": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "remainingBalance": { "type": "number" },
+        "paymentMode": { "type": "string", "enum": ["CASH", "UPI", "BANK", "CREDIT", "OTHER"] },
+        "saleTimeMillis": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "invoiceNumber", "customerName", "productName", "quantity", "unitPrice", "discount", "taxPercent", "totalAmount", "paidAmount", "remainingBalance", "paymentMode", "saleTimeMillis", "createdAt", "updatedAt"]
+    },
+    "ReminderRecord": {
+      "title": "ReminderRecord",
+      "description": "Payment reminder log and scheduled reminder record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "partyId": { "type": "string" },
+        "partyName": { "type": "string" },
+        "partyPhone": { "type": "string" },
+        "amount": { "type": "number" },
+        "channel": { "type": "string", "enum": ["WHATSAPP", "SMS", "NOTIFICATION", "SCHEDULED"] },
+        "message": { "type": "string" },
+        "scheduledAtMillis": { "type": "integer" },
+        "status": { "type": "string", "enum": ["SENT", "SCHEDULED", "DISMISSED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "partyId", "partyName", "amount", "channel", "message", "scheduledAtMillis", "status", "createdAt", "updatedAt"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "In-app notification feed item.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "category": { "type": "string", "enum": ["REMINDER", "PAYMENT", "SUMMARY", "BACKUP", "ALERT"] },
+        "readFlag": { "type": "boolean" },
+        "createdAtMillis": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "body", "category", "readFlag", "createdAtMillis", "createdAt", "updatedAt"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Customer support ticket visible to creator and admins.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "subject": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "IN_PROGRESS", "RESOLVED"] },
+        "adminReply": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "subject", "description", "category", "status", "createdAt", "updatedAt"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "System-wide announcement managed by admins.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "activeFlag": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "message", "activeFlag", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User account profile."
+    },
+    "/users/{userId}/businesses/{businessId}": {
+      "schema": { "$ref": "#/entities/BusinessProfile" },
+      "description": "Shopkeeper businesses."
+    },
+    "/users/{userId}/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Customer accounts."
+    },
+    "/users/{userId}/suppliers/{supplierId}": {
+      "schema": { "$ref": "#/entities/Supplier" },
+      "description": "Supplier accounts."
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/LedgerTransaction" },
+      "description": "Ledger transactions with audit history."
+    },
+    "/users/{userId}/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/Expense" },
+      "description": "Business expense records."
+    },
+    "/users/{userId}/sales/{saleId}": {
+      "schema": { "$ref": "#/entities/SaleRecord" },
+      "description": "Sales invoice records."
+    },
+    "/users/{userId}/reminders/{reminderId}": {
+      "schema": { "$ref": "#/entities/ReminderRecord" },
+      "description": "Payment reminders."
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/AppNotification" },
+      "description": "In-app notifications."
+    },
+    "/support_tickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/SupportTicket" },
+      "description": "Support tickets."
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Platform announcements."
+    }
+  }
+}

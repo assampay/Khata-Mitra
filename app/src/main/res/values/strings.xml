@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">KhataMitra</string>
+    <string name="app_tagline">Smart Digital Khata &amp; Business Ledger</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_khata">Khata</string>
+    <string name="nav_book">Book</string>
+    <string name="nav_reports">More</string>
+    <string name="you_will_get">You Will Get</string>
+    <string name="you_will_give">You Will Give</string>
+    <string name="give_credit">YOU GAVE ₹</string>
+    <string name="receive_payment">YOU GOT ₹</string>
+    <string name="sync_online">Cloud Synced</string>
+    <string name="sync_offline">Offline Mode</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+</resources>

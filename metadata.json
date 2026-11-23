@@ -1,0 +1,6 @@
+{
+  "name": "KhataMitra",
+  "description": "Smart Digital Khata, business ledger, credit/debit management, supplier payables, expense tracking, and analytics for Indian shopkeepers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
